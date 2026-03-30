@@ -1,4 +1,8 @@
-use std::{fs::create_dir, path::Path, path::PathBuf, process::Command};
+use std::{
+    fs::{self, create_dir},
+    path::{Path, PathBuf},
+    process::Command,
+};
 
 use clap::{Parser, ValueEnum};
 
@@ -39,6 +43,21 @@ impl LanguageType {
             std::process::exit(status.code().unwrap_or(1));
         }
     }
+
+    fn make_files(&self) -> Result<(), std::io::Error> {
+        match self {
+            LanguageType::Rust => {
+                fs::write("build.bat", "@echo off\ncargo build --release")?;
+                fs::write("run.bat", "@echo off\ncargo run ")?;
+            }
+
+            LanguageType::Golang => {
+                fs::write("build.bat", "@echo off\ngo build .")?;
+                fs::write("run.bat", "@echo off\ngo run .")?;
+            }
+        }
+        Ok(())
+    }
 }
 
 fn parse_args() -> (String, LanguageType) {
@@ -53,6 +72,7 @@ fn process(project_name: String, language_type: LanguageType) -> Result<(), std:
     std::env::set_current_dir(&path)?;
 
     language_type.init(project_name);
+    language_type.make_files()?;
 
     Ok(())
 }
