@@ -8,7 +8,8 @@
 
 1. Clone this repository:
 
-git clone https://github.com/JuneAsz/init_project_gimmick 
+git clone https://github.com/JuneAsz/np 
+
 cd np
 
 2. Build the tool with Cargo:
