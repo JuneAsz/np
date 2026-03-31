@@ -54,6 +54,7 @@ impl LanguageType {
             LanguageType::Golang => {
                 fs::write("build.bat", "@echo off\ngo build .")?;
                 fs::write("run.bat", "@echo off\ngo run .")?;
+                fs::write("main.go", fs::read_to_string("templates/go")?)?;
             }
         }
         Ok(())
