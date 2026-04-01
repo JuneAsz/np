@@ -51,7 +51,7 @@ This will:
 
 - `build.bat` – Builds the project (`cargo build --release` for Rust, `go build .` for Go)
 - `run.bat` – Runs the project (`cargo run` for Rust, `go run .` for Go)
-
+- `main.go` - main entry file, with a 'hello world' template. (for Go)
 ---
 
 ## Requirements
@@ -59,5 +59,29 @@ This will:
 - Rust (with Cargo) installed for Rust projects.
 - Go installed for Go projects.
 - Windows (for `.bat` scripts). Scripts can be modified for other platforms.
+
+## Meant to be used with a helper. (I use powershell)
+Example:
+
+```
+function np {
+    param(
+        [string]$ProjectName,
+        [string]$Language
+    )
+    
+    $npExe = "path\to\exe"
+    
+    & $npExe $ProjectName $Language
+    
+    if (Test-Path $ProjectName) {
+        Set-Location $ProjectName
+        zed . # open a text editor in said dir.
+        Write-Host "Changed directory to $ProjectName"
+    } else {
+        Write-Warning "Directory $ProjectName does not exist!"
+    }
+}
+```
 
 ---
